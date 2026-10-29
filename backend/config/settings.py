@@ -126,6 +126,10 @@ TRUCK_ROUTING = {
     "MAX_DAYS_AHEAD": 14,
 }
 
+# Django's default ("same-origin") strips the Referer from cross-origin requests, and the
+# OSM tile servers block tile requests without one. Send just the origin instead.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
