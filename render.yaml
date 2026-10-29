@@ -1,0 +1,15 @@
+# One-click deploy on Render: New → Blueprint → select this repository.
+services:
+  - type: web
+    name: weather-truck-routing
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health/
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      # Optional: a paid Open-Meteo key avoids shared-IP rate limits on free hosting.
+      - key: OPEN_METEO_API_KEY
+        sync: false
