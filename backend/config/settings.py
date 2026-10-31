@@ -5,6 +5,7 @@ Everything deployment-specific is read from environment variables so the same
 image runs locally, in Docker and on Render without code changes.
 """
 import os
+import secrets
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,8 +22,12 @@ def env_list(name: str, default: str = "") -> list[str]:
     return [item.strip() for item in os.environ.get(name, default).split(",") if item.strip()]
 
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-insecure-key-change-me")
 DEBUG = env_bool("DJANGO_DEBUG", True)
+# Nothing is signed or stored across requests (no sessions, auth or CSRF), so production can fall
+# back to a random per-process key when DJANGO_SECRET_KEY is not configured.
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or (
+    "dev-only-insecure-key-change-me" if DEBUG else secrets.token_urlsafe(50)
+)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
 # Hosting platforms that publish the service's public hostnames: Render, Hugging Face Spaces, Vercel.
