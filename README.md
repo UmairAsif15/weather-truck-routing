@@ -6,7 +6,7 @@ risk with the provided wind/rain/snow and load-weight rules, and recommends a ro
 weather risk first and travel time second. A corridor heatmap with a 0–48 h slider shows how
 the weather evolves around the trip.
 
-- **Live app:** `<your Render URL>`
+- **Live app:** https://weather-truck-routing-weld.vercel.app
 - **Walkthrough:** `<your Loom URL>`
 
 ![Recommended route avoiding a storm](docs/screenshot.png)
