@@ -101,16 +101,21 @@ class ApiTests(SimpleTestCase):
     def _post(self, url, body):
         return self.client.post(url, json.dumps(body), content_type="application/json")
 
+    def _post_rejected(self, url, body):
+        # Django logs every 4xx as "Bad Request"; capture it so test output stays clean.
+        with self.assertLogs("django.request", level="WARNING"):
+            return self._post(url, body)
+
     def test_validation_errors(self):
-        res = self._post("/api/plan/", {"origin": {}, "destination": {"query": "x"}, "departure": "nope",
-                                        "load_weight_lb": -5, "sample_interval_mi": 7})
+        res = self._post_rejected("/api/plan/", {"origin": {}, "destination": {"query": "x"}, "departure": "nope",
+                                                 "load_weight_lb": -5, "sample_interval_mi": 7})
         self.assertEqual(res.status_code, 400)
         self.assertEqual(set(res.json()), {"origin", "departure", "load_weight_lb", "sample_interval_mi"})
 
     def test_departure_in_past_rejected(self):
         past = (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
-        res = self._post("/api/plan/", {"origin": {"lat": 35, "lon": -100}, "destination": {"lat": 35, "lon": -97},
-                                        "departure": past, "load_weight_lb": 1000})
+        res = self._post_rejected("/api/plan/", {"origin": {"lat": 35, "lon": -100}, "destination": {"lat": 35, "lon": -97},
+                                                 "departure": past, "load_weight_lb": 1000})
         self.assertEqual(res.status_code, 400)
 
     def test_plan_and_heatmap_with_simulated_storm(self):
