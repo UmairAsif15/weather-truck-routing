@@ -1,1 +1,7 @@
--r backend/requirements.txt
+# Python packages for the Vercel function (api/index.py). Keep in sync with backend/requirements.txt;
+# Vercel cannot follow "-r" includes, and the Docker image installs from backend/ only.
+Django==5.2.18
+djangorestframework==3.18.3
+django-cors-headers==4.9.0
+requests==2.34.2
+whitenoise==6.12.0

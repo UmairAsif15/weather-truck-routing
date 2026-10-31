@@ -1,0 +1,10 @@
+# Upload only source; Vercel installs and builds remotely.
+.git
+**/node_modules
+**/.venv
+**/__pycache__
+frontend/dist
+backend/staticfiles
+backend/db.sqlite3
+docs
+.env
