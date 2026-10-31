@@ -25,9 +25,10 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-insecure-key-change-m
 DEBUG = env_bool("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
-render_host = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
-if render_host:
-    ALLOWED_HOSTS.append(render_host)
+# Hosting platforms that publish the service's public hostname: Render, Hugging Face Spaces.
+for platform_host in (os.environ.get("RENDER_EXTERNAL_HOSTNAME"), os.environ.get("SPACE_HOST")):
+    if platform_host:
+        ALLOWED_HOSTS.append(platform_host)
 CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host not in {"localhost", "127.0.0.1", "*"}]
 
 INSTALLED_APPS = [
