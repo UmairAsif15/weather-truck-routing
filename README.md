@@ -161,6 +161,10 @@ whole app is one service.
 **Render:** push to GitHub → Render → *New → Blueprint* → pick the repo (`render.yaml` does the
 rest). Or `docker build -t truck-routing . && docker run -p 8000:8000 truck-routing`.
 
+**Vercel (no Docker):** import the repo in Vercel; `vercel.json` builds the React app as static files
+and runs the Django API as one Python function (`api/index.py`) behind `/api/*`. Set
+`DJANGO_SECRET_KEY` in the project's environment variables.
+
 Environment variables are listed in `.env.example`. On free hosting the shared outbound IP can hit
 Open-Meteo's free daily limit; setting `OPEN_METEO_API_KEY` switches to the commercial endpoint.
 

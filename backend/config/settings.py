@@ -25,8 +25,14 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-insecure-key-change-m
 DEBUG = env_bool("DJANGO_DEBUG", True)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1")
-# Hosting platforms that publish the service's public hostname: Render, Hugging Face Spaces.
-for platform_host in (os.environ.get("RENDER_EXTERNAL_HOSTNAME"), os.environ.get("SPACE_HOST")):
+# Hosting platforms that publish the service's public hostnames: Render, Hugging Face Spaces, Vercel.
+for platform_host in (
+    os.environ.get("RENDER_EXTERNAL_HOSTNAME"),
+    os.environ.get("SPACE_HOST"),
+    os.environ.get("VERCEL_PROJECT_PRODUCTION_URL"),
+    os.environ.get("VERCEL_BRANCH_URL"),
+    os.environ.get("VERCEL_URL"),
+):
     if platform_host:
         ALLOWED_HOSTS.append(platform_host)
 CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host not in {"localhost", "127.0.0.1", "*"}]
