@@ -7,7 +7,7 @@ weather risk first and travel time second. A corridor heatmap with a 0–48 h sl
 the weather evolves around the trip.
 
 - **Live app:** https://weather-truck-routing-weld.vercel.app
-- **Walkthrough:** `<your Loom URL>`
+- **Walkthrough (Loom):** https://www.loom.com/share/e695959802f0412481bfaf30b517dec6
 
 ![Recommended route avoiding a storm](docs/screenshot.png)
 
